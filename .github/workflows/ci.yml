@@ -1,0 +1,53 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build-and-test-frontend:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+    - name: Install dependencies
+      run: npm install
+      working-directory: ./frontend
+    - name: Run unit tests
+      run: npm test -- --ci --reporters=jest-junit
+      working-directory: ./frontend
+    - name: Run Cypress tests
+      run: npm run cypress:run
+      working-directory: ./frontend
+
+  build-and-test-backend:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Set up .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '5.0.x'
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: ./backend/TunisianBootee.Api
+    - name: Build
+      run: dotnet build --no-restore
+      working-directory: ./backend/TunisianBootee.Api
+    - name: Run tests
+      run: dotnet test --no-restore --verbosity normal
+      working-directory: ./backend/TunisianBootee.Tests
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Run Super-Linter
+      uses: github/super-linter@v4
+      env:
+        DEFAULT_BRANCH: main
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

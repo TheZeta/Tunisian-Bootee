@@ -1,0 +1,39 @@
+# Frontend
+frontend/node_modules/
+frontend/.pnp/
+frontend/.pnp.js
+frontend/.cache/
+frontend/.env
+frontend/.env.local
+frontend/.eslintcache
+frontend/*.log
+frontend/build/
+frontend/dist/
+
+# Backend
+backend/bin/
+backend/obj/
+
+# Docker
+**/*.dockerfile
+**/*.dockerignore
+
+# IDE files
+.vscode/
+*.code-workspace
+
+# Dependency directories
+packages/
+
+# Environment files
+.env
+.env.local
+
+# Others
+*.log
+*.swp
+.DS_Store
+
+# Ignore npm debug log
+npm-debug.log*
+

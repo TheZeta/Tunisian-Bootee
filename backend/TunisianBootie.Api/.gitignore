@@ -1,0 +1,33 @@
+# ASP.NET
+*.obj
+*.pdb
+*.user
+*.dll
+*.exe
+*.cache
+*.log
+
+# Visual Studio files
+.vscode/
+.vs/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln.docstates
+
+# NuGet packages
+*.nupkg
+**/packages/*
+!.nuget/
+# Exclude the packages folder itself except for the .nuget folder
+# This ignores the top-level packages folder but allows .nuget subfolder
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Visual Studio 2015/2017/2019 cache/options directory
+.vscode/
+.vs
+/bin/
+/obj/
