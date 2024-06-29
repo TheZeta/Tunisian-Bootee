@@ -30,16 +30,16 @@ jobs:
     - name: Set up .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '5.0.x'
+        dotnet-version: '8.0.x'
     - name: Restore dependencies
       run: dotnet restore
-      working-directory: ./backend/TunisianBootee.Api
+      working-directory: ./backend/TunisianBootie.Api
     - name: Build
       run: dotnet build --no-restore
-      working-directory: ./backend/TunisianBootee.Api
+      working-directory: ./backend/TunisianBootie.Api
     - name: Run tests
       run: dotnet test --no-restore --verbosity normal
-      working-directory: ./backend/TunisianBootee.Tests
+      working-directory: ./backend/TunisianBootie.Tests
 
   lint:
     runs-on: ubuntu-latest
