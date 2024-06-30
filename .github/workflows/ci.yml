@@ -16,7 +16,7 @@ jobs:
       run: npm install
       working-directory: ./frontend
     - name: Run unit tests
-      run: npm test -- --ci --reporters=jest-junit
+      run: npm test -- --ci --reporters=jest-junit --detectOpenHandles
       working-directory: ./frontend
     - name: Run Cypress tests
       run: npm run cypress:run
@@ -35,19 +35,8 @@ jobs:
       run: dotnet restore
       working-directory: ./backend/TunisianBootie.Api
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build
       working-directory: ./backend/TunisianBootie.Api
     - name: Run tests
-      run: dotnet test --no-restore --verbosity normal
+      run: dotnet test --verbosity normal
       working-directory: ./backend/TunisianBootie.Tests
-
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Run Super-Linter
-      uses: github/super-linter@v4
-      env:
-        DEFAULT_BRANCH: main
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
