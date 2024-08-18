@@ -1,12 +1,12 @@
-version: '3.8'
-
 services:
   web:
-    build: ./backend/TunisianBootee.Api
+    build: ./backend
     ports:
-      - "5000:80"
+      - "8080:8080"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+        restart: true
 
   frontend:
     build: ./frontend
@@ -18,6 +18,18 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: tunisian_bootee
+      POSTGRES_DB: TunisianBootieDb
     ports:
       - "5432:5432"
+    volumes:
+      - tunisian-bootie_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 5s
+
+volumes:
+  tunisian-bootie_db_data
+  
