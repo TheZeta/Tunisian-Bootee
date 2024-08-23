@@ -1,7 +1,7 @@
 // src/services/itemService.ts
 import { Item } from '../types/Item';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://tunuspatik.com/api';
 
 export const fetchItems = async (): Promise<Item[]> => {
     const response = await fetch(`${API_BASE_URL}/items`);
