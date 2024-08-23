@@ -1,15 +1,17 @@
 services:
   web:
-    build: ./backend
+    image: tunisian-bootie-web
     ports:
-      - "8080:8080"
+      - "5092:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
     depends_on:
       db:
         condition: service_healthy
         restart: true
 
   frontend:
-    build: ./frontend
+    image: tunisian-bootie-frontend
     ports:
       - "3000:3000"
 
@@ -19,10 +21,10 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       POSTGRES_DB: TunisianBootieDb
+    volumes:
+      - db_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-    volumes:
-      - tunisian-bootie_db_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -31,5 +33,4 @@ services:
       timeout: 5s
 
 volumes:
-  tunisian-bootie_db_data
-  
+  db_data:
