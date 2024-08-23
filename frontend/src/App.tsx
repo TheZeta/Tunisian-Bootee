@@ -1,35 +1,67 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// src/App.tsx
+import React, { useEffect, useState } from 'react';
+import ItemCard from './components/ItemCard';
+import ItemForm from './components/ItemForm';
+import { fetchItems, fetchItemImage } from './services/itemService';
+import { Item } from './types/Item';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App: React.FC = () => {
+    const [items, setItems] = useState<Item[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    useEffect(() => {
+        const loadItems = async () => {
+            try {
+                const itemsData = await fetchItems();
+                
+                // Ensure itemsData is an array before mapping
+                if (!Array.isArray(itemsData)) {
+                    throw new Error('Fetched data is not an array');
+                }
 
-export default App
+                const itemsWithImages = await Promise.all(
+                    itemsData.map(async (item) => {
+                        const imageUrl = await fetchItemImage(item.id);
+                        return { ...item, imageData: imageUrl };
+                    })
+                );
+                setItems(itemsWithImages);
+            } catch (err) {
+                if (err instanceof Error) {
+                    setError(err.message);
+                } else {
+                    setError('An unknown error occurred');
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadItems();
+    }, []);
+
+    return (
+        <div>
+            <h1>Item List</h1>
+            <ItemForm />
+            {loading && <p>Loading...</p>}
+            {error && <p>Error: {error}</p>}
+            <div style={styles.grid}>
+                {items.map((item) => (
+                    <ItemCard key={item.id} {...item} />
+                ))}
+            </div>
+        </div>
+    );
+};
+
+const styles = {
+    grid: {
+        display: 'flex',
+        flexWrap: 'wrap' as 'wrap',
+        justifyContent: 'center',
+    },
+};
+
+export default App;
