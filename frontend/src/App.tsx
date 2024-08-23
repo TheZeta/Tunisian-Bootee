@@ -1,4 +1,3 @@
-// src/App.tsx
 import React, { useEffect, useState } from 'react';
 import ItemCard from './components/ItemCard';
 import ItemForm from './components/ItemForm';
