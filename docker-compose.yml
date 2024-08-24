@@ -1,6 +1,6 @@
 services:
   web:
-    image: tunisian-bootie-web
+    image: ./backend
     ports:
       - "5092:8080"
     environment:
@@ -11,7 +11,7 @@ services:
         restart: true
 
   frontend:
-    image: tunisian-bootie-frontend
+    image: ./frontend
     ports:
       - "3000:3000"
 
