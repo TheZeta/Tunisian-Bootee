@@ -1,0 +1,30 @@
+/* Header.css */
+
+.header {
+    background-color: #282c34; /* Dark background for header */
+    padding: 10px 20px; /* Padding for spacing */
+    display: flex;
+    justify-content: center; /* Center the navigation horizontally */
+  }
+  
+  .nav {
+    display: flex;
+    gap: 15px; /* Space between links */
+  }
+  
+  .nav a {
+    color: #61dafb; /* Light blue color for links */
+    text-decoration: none; /* Remove underline from links */
+    font-size: 18px; /* Font size for the links */
+    font-weight: bold; /* Make the font bold */
+    transition: color 0.3s; /* Smooth color transition */
+  }
+  
+  .nav a:hover {
+    color: #21a1f1; /* Darker blue color on hover */
+  }
+  
+  .nav a:active {
+    color: #1e90ff; /* Even darker blue when link is clicked */
+  }
+  

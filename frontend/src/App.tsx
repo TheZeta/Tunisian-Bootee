@@ -1,66 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import ItemCard from './components/ItemCard';
-import ItemForm from './components/ItemForm';
-import { fetchItems, fetchItemImage } from './services/itemService';
-import { Item } from './types/Item';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './components/Home';
+import ProductPage from './components/ProductPage';
+import ShoppingCart from './components/ShoppingCart';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import './App.css';
+import { CartProvider } from './context/CartContext';
 
 const App: React.FC = () => {
-    const [items, setItems] = useState<Item[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        const loadItems = async () => {
-            try {
-                const itemsData = await fetchItems();
-                
-                // Ensure itemsData is an array before mapping
-                if (!Array.isArray(itemsData)) {
-                    throw new Error('Fetched data is not an array');
-                }
-
-                const itemsWithImages = await Promise.all(
-                    itemsData.map(async (item) => {
-                        const imageUrl = await fetchItemImage(item.id);
-                        return { ...item, imageData: imageUrl };
-                    })
-                );
-                setItems(itemsWithImages);
-            } catch (err) {
-                if (err instanceof Error) {
-                    setError(err.message);
-                } else {
-                    setError('An unknown error occurred');
-                }
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        loadItems();
-    }, []);
-
-    return (
-        <div>
-            <h1>Item List</h1>
-            <ItemForm />
-            {loading && <p>Loading...</p>}
-            {error && <p>Error: {error}</p>}
-            <div style={styles.grid}>
-                {items.map((item) => (
-                    <ItemCard key={item.id} {...item} />
-                ))}
-            </div>
+  return (
+    <CartProvider>
+      <Router>
+        <div className="app-container">
+          <Header />
+          <main className="main-content">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/product/:id" element={<ProductPage />} />
+              <Route path="/cart" element={<ShoppingCart />} />
+            </Routes>
+          </main>
+          <Footer />
         </div>
-    );
-};
-
-const styles = {
-    grid: {
-        display: 'flex',
-        flexWrap: 'wrap' as 'wrap',
-        justifyContent: 'center',
-    },
+      </Router>
+    </CartProvider>
+  );
 };
 
 export default App;
