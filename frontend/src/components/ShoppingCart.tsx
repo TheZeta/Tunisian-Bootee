@@ -12,7 +12,7 @@ const ShoppingCart: React.FC = () => {
       ) : (
         <ul>
           {cart.map((item) => (
-            <li key={item.productId}>
+            <li key={item.id}>
               {item.name} - ${item.price.toFixed(2)} x {item.quantity}
             </li>
           ))}
