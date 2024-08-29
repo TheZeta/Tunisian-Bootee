@@ -1,6 +1,7 @@
 import React from 'react';
 import '../styles/ProductCard.css'; // Import CSS file for styling
 import { useCart } from '../context/CartContext';
+import { toast } from 'react-toastify';
 
 interface ProductCardProps {
   id: number;
@@ -19,6 +20,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, name, price, size, imageU
       name: name,
       price: price,
       quantity: 1,
+    });
+
+    // Show a toast notification
+    toast.success(`Added to cart!`, {
+      position: "top-right",
+      autoClose: 500,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
     });
   };
 

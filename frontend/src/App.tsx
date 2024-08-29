@@ -7,6 +7,8 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import './App.css';
 import { CartProvider } from './context/CartContext';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 const App: React.FC = () => {
   return (
@@ -20,6 +22,7 @@ const App: React.FC = () => {
               <Route path="/product/:id" element={<ProductPage />} />
               <Route path="/cart" element={<ShoppingCart />} />
             </Routes>
+            <ToastContainer />
           </main>
           <Footer />
         </div>
